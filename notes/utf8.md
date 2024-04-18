@@ -24,7 +24,7 @@ func main() {
     s := "Hello, 世界"
     fmt.Println(s)
     fmt.Println(len(s))
-    fmt.Println(RuneCountInString(s))
+    fmt.Println(utf8.RuneCountInString(s))
 }
 
 // Output:
