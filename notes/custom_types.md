@@ -27,6 +27,10 @@ To create an instance of a struct, you use the `var` keyword followed by the nam
 ```go
 package main
 
+import (
+    "fmt"
+)
+
 type Point struct {
     x, y int
 }
@@ -45,6 +49,9 @@ func main() {
     r.topLeft.y = 0
     r.bottomRight.x = 100
     r.bottomRight.y = 100
+	
+    fmt.Println(p)
+    fmt.Println(r)
 }
 ```
 
@@ -57,7 +64,9 @@ You can define methods on structs in Go. This allows you to define behavior that
 ```go
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Point struct {
     x, y int
@@ -90,7 +99,9 @@ You can embed one struct inside another struct in Go. This allows you to reuse t
 ```go
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Point struct {
     x, y int
@@ -120,7 +131,9 @@ To define an interface, you use the `type` keyword followed by the name of the i
 ```go
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Rectangle struct {
 	width, height float64
