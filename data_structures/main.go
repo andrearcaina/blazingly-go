@@ -86,6 +86,30 @@ func main() {
 
 	fmt.Println(slice7)
 
+	var myMap map[string]uint8 = make(map[string]uint8) // [string] == key, uint8 == value
+	fmt.Printf("%v\n", myMap)
+
+	var myMap2 = map[string]uint8{"Adam": 23, "Sarah": 45}
+	fmt.Printf("%v\n", myMap2)
+	fmt.Printf("%v, %v\n", myMap2["Adam"], myMap2["Sarah"])
+
+	// maps always return true
+	fmt.Printf("%v\n", myMap2["John"]) // 0 (default value for uint8)
+
+	// So, do this instead
+	var age, ok = myMap["John"]
+
+	if ok {
+		fmt.Printf("Age of John: %v\n", age)
+	} else {
+		fmt.Println("John not found")
+	}
+
+	delete(myMap2, "Adam") // delete an element from a map
+	myMap2["John"] = 34    // add an element to a map
+
+	fmt.Printf("%v\n", myMap2)
+
 	// iterating over a slice
 	for i, v := range slice7 {
 		fmt.Printf("Index: %v, Value: %v\n", i, v)
@@ -101,4 +125,18 @@ func main() {
 		fmt.Printf("Index: %v\n", i)
 	}
 
+	// iterating over a map
+	for k, v := range myMap2 {
+		fmt.Printf("Key: %v, Value: %v\n", k, v)
+	}
+
+	// iterating over a map without using the key
+	for _, v := range myMap2 {
+		fmt.Printf("Value: %v\n", v)
+	}
+
+	// iterating over a map without using the value
+	for k := range myMap2 {
+		fmt.Printf("Key: %v\n", k)
+	}
 }
