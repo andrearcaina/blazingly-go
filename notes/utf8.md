@@ -36,10 +36,7 @@ func main() {
 ## Runes
 - A rune is a Unicode code point.
 - A rune is an alias for the `int32` type.
-- A rune is a single character.
 - A rune is a single Unicode character.
-
-In Go, a rune is an alias for the `int32` type and represents a Unicode code point. A rune is a single character in a string. A rune is a single Unicode character. A rune is a single Unicode code point. A rune is a single Unicode scalar value.
 
 ```go
 package main
@@ -59,10 +56,6 @@ func main() {
 
 ## Bytes
 - A byte is an alias for the `uint8` type.
-- A byte is a single byte.
-- A byte is a single octet.
-
-In Go, a byte is an alias for the `uint8` type and represents a single byte. A byte is a single octet. A byte is a single 8-bit value. A byte is a single 8-bit unsigned integer.
 
 ```go
 package main
