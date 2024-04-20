@@ -1,7 +1,7 @@
 package main
 
 import (
-	"custom_types/src"
+	"blazingly-go/composites/src"
 	"fmt"
 )
 

@@ -1,3 +1,3 @@
-module custom_types
+module blazingly-go/composites
 
 go 1.21
