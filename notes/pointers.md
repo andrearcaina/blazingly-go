@@ -75,11 +75,7 @@ In this example, the `double` function takes a pointer to an integer as an argum
 
 In Go, slices and maps are reference types, which means that when you pass a slice or map to a function, you are passing a reference to the underlying data structure, not a copy of the data structure.
 
-This means that slices are already pointers, so you don't need to pass a pointer to a slice to modify the original slice inside a function.
-
-Same can be said for maps.
-
-But in functions, if you want to modify the slice or map itself (e.g., append elements to a slice or add elements to a map), you need to pass a pointer to the slice or map.
+In functions, if you want to modify the slice or map itself (e.g., append elements to a slice or add elements to a map), you need to pass a pointer to the slice or map.
 
 ```go
 package main
