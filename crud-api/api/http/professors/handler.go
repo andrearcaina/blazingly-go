@@ -24,7 +24,7 @@ func GetALlProfessors(db *sql.DB) http.HandlerFunc {
 		for query.Next() {
 			var professor models.Professors
 
-			err := query.Scan(&professor.ID, &professor.FirstName, &professor.LastName, &professor.Age, &professor.Department)
+			err = query.Scan(&professor.ID, &professor.FirstName, &professor.LastName, &professor.Age, &professor.Department)
 
 			if err != nil {
 				log.Fatalf("Error scanning professors: %v", err)

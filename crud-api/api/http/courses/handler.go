@@ -24,7 +24,7 @@ func GetALlCourses(db *sql.DB) http.HandlerFunc {
 		for query.Next() {
 			var course models.Courses
 
-			err := query.Scan(&course.ID, &course.StudentsID, &course.ProfessorsID, &course.CourseName, &course.CourseCode)
+			err = query.Scan(&course.ID, &course.StudentsID, &course.ProfessorsID, &course.CourseName, &course.CourseCode)
 
 			if err != nil {
 				log.Fatalf("Error scanning courses: %v", err)

@@ -24,7 +24,7 @@ func GetALlStudents(db *sql.DB) http.HandlerFunc {
 		for query.Next() {
 			var student models.Students
 
-			err := query.Scan(&student.ID, &student.FirstName, &student.LastName, &student.Age, &student.Major)
+			err = query.Scan(&student.ID, &student.FirstName, &student.LastName, &student.Age, &student.Major)
 
 			if err != nil {
 				log.Fatalf("Error scanning students: %v", err)
