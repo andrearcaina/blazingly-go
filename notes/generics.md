@@ -7,7 +7,7 @@ package main
 
 import "fmt"
 
-// A generic function that takes a slice of any type and returns the sum of the elements in the slice.
+// A generic function that takes a slice of int or float64 type and returns the sum of the elements in the slice.
 func sum[T int | float64](s []T) T {
     var total T
     for _, v := range s {
