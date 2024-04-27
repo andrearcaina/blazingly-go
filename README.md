@@ -21,6 +21,8 @@ blazingly-go/
 │    └── main.go               # main.go file
 ├── goroutines/                # goes over goroutines
 │    └── main.go               # main.go file
+├── generics/                  # goes over generics and type handling
+│    └── main.go               # main.go file
 ├── intro/                     # hello world!
 │    └── main.go               # main.go file
 ├── notes/                     # goes over all my notes
