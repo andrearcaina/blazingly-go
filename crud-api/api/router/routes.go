@@ -16,7 +16,16 @@ func Server(r chi.Router, db *sql.DB) {
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 			text := map[string]string{"message": "Hello, World!"}
 
-			json.NewEncoder(w).Encode(text)
+			_, err := json.Marshal(text) // this is a way to convert a map to a json object
+
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				return
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(text) // this is a way to write a json object to the response with encoding
 		})
 	})
 

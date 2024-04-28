@@ -14,6 +14,7 @@ func GetALlCourses(db *sql.DB) http.HandlerFunc {
 		query, err := db.Query("SELECT * FROM courses")
 
 		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
 			log.Fatalf("Error getting courses: %v", err)
 		}
 
@@ -27,6 +28,7 @@ func GetALlCourses(db *sql.DB) http.HandlerFunc {
 			err = query.Scan(&course.ID, &course.StudentsID, &course.ProfessorsID, &course.CourseName, &course.CourseCode)
 
 			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
 				log.Fatalf("Error scanning courses: %v", err)
 			}
 
@@ -34,6 +36,7 @@ func GetALlCourses(db *sql.DB) http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(coursesList)
 	}
 }

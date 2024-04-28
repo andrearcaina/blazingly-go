@@ -14,6 +14,7 @@ func GetALlProfessors(db *sql.DB) http.HandlerFunc {
 		query, err := db.Query("SELECT * FROM professors")
 
 		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
 			log.Fatalf("Error getting professors: %v", err)
 		}
 
@@ -27,6 +28,7 @@ func GetALlProfessors(db *sql.DB) http.HandlerFunc {
 			err = query.Scan(&professor.ID, &professor.FirstName, &professor.LastName, &professor.Age, &professor.Department)
 
 			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
 				log.Fatalf("Error scanning professors: %v", err)
 			}
 
@@ -34,6 +36,7 @@ func GetALlProfessors(db *sql.DB) http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(professorsList)
 	}
 }
