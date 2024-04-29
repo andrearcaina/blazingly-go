@@ -13,6 +13,7 @@ import (
 
 func Server(r chi.Router, db *sql.DB) {
 	r.Route("/", func(r chi.Router) {
+		// /
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 			text := map[string]string{"message": "Hello, World!"}
 
@@ -30,8 +31,16 @@ func Server(r chi.Router, db *sql.DB) {
 	})
 
 	r.Route("/api", func(r chi.Router) {
-		r.Get("/students", students.GetALlStudents(db))
-		r.Get("/courses", courses.GetALlCourses(db))
-		r.Get("/professors", professors.GetALlProfessors(db))
+		// /api/students
+		r.Get("/students", students.GetAllStudents(db))
+
+		// /api/student?id=1
+		r.Get("/student", students.GetStudentByID(db))
+
+		// /api/courses
+		r.Get("/courses", courses.GetAllCourses(db))
+
+		// /api/professors
+		r.Get("/professors", professors.GetAllProfessors(db))
 	})
 }

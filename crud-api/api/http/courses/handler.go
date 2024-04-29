@@ -6,37 +6,22 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/blazingly-go/crud-api/database"
 	"github.com/blazingly-go/crud-api/models"
 )
 
-func GetALlCourses(db *sql.DB) http.HandlerFunc {
+func GetAllCourses(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		query, err := db.Query("SELECT * FROM courses")
+		courses, err := database.GetAll[models.ModelFields](db, "courses", &models.Courses{})
 
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			log.Fatalf("Error getting courses: %v", err)
-		}
-
-		defer query.Close()
-
-		var coursesList []models.Courses
-
-		for query.Next() {
-			var course models.Courses
-
-			err = query.Scan(&course.ID, &course.StudentsID, &course.ProfessorsID, &course.CourseName, &course.CourseCode)
-
-			if err != nil {
-				w.WriteHeader(http.StatusInternalServerError)
-				log.Fatalf("Error scanning courses: %v", err)
-			}
-
-			coursesList = append(coursesList, course)
+			log.Printf("Error getting courses: %v", err)
+			return
 		}
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(coursesList)
+		json.NewEncoder(w).Encode(courses)
 	}
 }
