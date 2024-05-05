@@ -1,27 +1,39 @@
 package courses
 
 import (
-	"database/sql"
 	"encoding/json"
+	"github.com/go-chi/chi/v5"
 	"log"
 	"net/http"
 
-	"github.com/blazingly-go/crud-api/database"
-	"github.com/blazingly-go/crud-api/models"
+	http2 "blazingly-go/crud-api/api/http"
+	"blazingly-go/crud-api/database"
+	"blazingly-go/crud-api/models"
 )
 
-func GetAllCourses(db *sql.DB) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		courses, err := database.GetAll[models.ModelFields](db, "courses", &models.Courses{})
+type Handler struct {
+	http2.BaseHandler
+}
 
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			log.Printf("Error getting courses: %v", err)
-			return
-		}
+func (h *Handler) InitRoutes() chi.Router {
+	r := chi.NewRouter()
 
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(courses)
+	r.Get("/", h.getAllCourses)
+
+	return r
+}
+
+func (h *Handler) getAllCourses(w http.ResponseWriter, r *http.Request) {
+	courses, err := database.GetAll[models.ModelFields](h.DB, "courses", &models.Courses{})
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Error getting courses table"))
+		log.Printf("Error getting courses: %v", err)
+		return
 	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(courses)
 }

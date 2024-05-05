@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/blazingly-go/crud-api/api/router"
-	"github.com/blazingly-go/crud-api/database"
+	"blazingly-go/crud-api/api/router"
+	"blazingly-go/crud-api/database"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )

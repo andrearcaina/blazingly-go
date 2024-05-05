@@ -1,9 +1,9 @@
 package database
 
 import (
+	"blazingly-go/crud-api/models"
 	"database/sql"
 	"fmt"
-	"github.com/blazingly-go/crud-api/models"
 )
 
 func GetAll[T models.ModelFields](db *sql.DB, tableName string, prototype T) ([]T, error) {

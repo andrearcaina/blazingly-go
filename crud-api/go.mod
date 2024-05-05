@@ -1,4 +1,4 @@
-module github.com/blazingly-go/crud-api
+module blazingly-go/crud-api
 
 go 1.21.6
 

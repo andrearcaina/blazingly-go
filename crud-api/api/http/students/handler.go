@@ -1,47 +1,59 @@
 package students
 
 import (
-	"database/sql"
 	"encoding/json"
 	"log"
 	"net/http"
 	"strconv"
 
-	"github.com/blazingly-go/crud-api/database"
-	"github.com/blazingly-go/crud-api/models"
+	http2 "blazingly-go/crud-api/api/http"
+	"blazingly-go/crud-api/database"
+	"blazingly-go/crud-api/models"
+	"github.com/go-chi/chi/v5"
 )
 
-func GetAllStudents(db *sql.DB) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		students, err := database.GetAll[models.ModelFields](db, "students", &models.Students{})
-
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			log.Printf("Error getting students: %v", err)
-			return
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(students)
-	}
+type Handler struct {
+	http2.BaseHandler
 }
 
-func GetStudentByID(db *sql.DB) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		id := r.URL.Query().Get("id") // get the id from the query string
-		n, _ := strconv.Atoi(id)
+func (h *Handler) InitRoutes() chi.Router {
+	r := chi.NewRouter()
 
-		student, err := database.GetID[models.ModelFields](db, "students", &models.Students{}, n)
+	r.Get("/", h.getAllStudents)
+	r.Get("/{id}", h.getStudentByID)
 
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			log.Printf("Error getting student: %v", err)
-			return
-		}
+	return r
+}
 
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(student)
+func (h *Handler) getAllStudents(w http.ResponseWriter, r *http.Request) {
+	students, err := database.GetAll[models.ModelFields](h.DB, "students", &models.Students{})
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Error getting student"))
+		log.Printf("Error getting students: %v", err)
+		return
 	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(students)
+}
+
+func (h *Handler) getStudentByID(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	n, _ := strconv.Atoi(id)
+
+	student, err := database.GetID[models.ModelFields](h.DB, "students", &models.Students{}, n)
+
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("Error getting student"))
+		log.Printf("Error getting student: %v", err)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(student)
 }

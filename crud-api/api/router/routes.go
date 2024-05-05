@@ -1,46 +1,44 @@
 package router
 
 import (
+	http2 "blazingly-go/crud-api/api/http"
+	"blazingly-go/crud-api/api/http/professors"
 	"database/sql"
 	"encoding/json"
 	"github.com/go-chi/chi/v5"
+	"log"
 	"net/http"
 
-	"github.com/blazingly-go/crud-api/api/http/courses"
-	"github.com/blazingly-go/crud-api/api/http/professors"
-	"github.com/blazingly-go/crud-api/api/http/students"
+	"blazingly-go/crud-api/api/http/courses"
+	"blazingly-go/crud-api/api/http/students"
 )
 
 func Server(r chi.Router, db *sql.DB) {
-	r.Route("/", func(r chi.Router) {
-		// /
-		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			text := map[string]string{"message": "Hello, World!"}
+	base := http2.BaseHandler{DB: db}
+	studentsHandler := students.Handler{BaseHandler: base}
+	coursesHandler := courses.Handler{BaseHandler: base}
+	professorsHandler := professors.Handler{BaseHandler: base}
 
-			_, err := json.Marshal(text) // this is a way to convert a map to a json object
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		text := map[string]string{"message": "Hello, World!"}
 
-			if err != nil {
-				w.WriteHeader(http.StatusInternalServerError)
-				return
-			}
+		output, err := json.Marshal(text) // convert the defined map to a json object
 
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			json.NewEncoder(w).Encode(text) // this is a way to write a json object to the response with encoding
-		})
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		log.Println(string(output)) // print the json object to the console
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(text) // write a map to the response with json encoding
 	})
 
 	r.Route("/api", func(r chi.Router) {
-		// /api/students
-		r.Get("/students", students.GetAllStudents(db))
-
-		// /api/student?id=1
-		r.Get("/student", students.GetStudentByID(db))
-
-		// /api/courses
-		r.Get("/courses", courses.GetAllCourses(db))
-
-		// /api/professors
-		r.Get("/professors", professors.GetAllProfessors(db))
+		r.Mount("/students", studentsHandler.InitRoutes())
+		r.Mount("/courses", coursesHandler.InitRoutes())
+		r.Mount("/professors", professorsHandler.InitRoutes())
 	})
 }
