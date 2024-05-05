@@ -1,4 +1,4 @@
-package http
+package models
 
 import (
 	"database/sql"

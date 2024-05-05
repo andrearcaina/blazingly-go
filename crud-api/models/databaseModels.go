@@ -24,9 +24,9 @@ type Professors struct {
 	Department string `json:"department"`
 }
 
-type ModelFields interface {
+type DatabaseObject interface {
 	GetFields() []interface{}
-	NewInstance() ModelFields
+	NewObject() DatabaseObject
 }
 
 func (s *Students) GetFields() []interface{} {
@@ -41,14 +41,14 @@ func (p *Professors) GetFields() []interface{} {
 	return []interface{}{&p.ID, &p.FirstName, &p.LastName, &p.Age, &p.Department}
 }
 
-func (s *Students) NewInstance() ModelFields {
+func (s *Students) NewObject() DatabaseObject {
 	return &Students{}
 }
 
-func (c *Courses) NewInstance() ModelFields {
+func (c *Courses) NewObject() DatabaseObject {
 	return &Courses{}
 }
 
-func (p *Professors) NewInstance() ModelFields {
+func (p *Professors) NewObject() DatabaseObject {
 	return &Professors{}
 }

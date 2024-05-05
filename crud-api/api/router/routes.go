@@ -1,8 +1,8 @@
 package router
 
 import (
-	http2 "blazingly-go/crud-api/api/http"
 	"blazingly-go/crud-api/api/http/professors"
+	http2 "blazingly-go/crud-api/models"
 	"database/sql"
 	"encoding/json"
 	"github.com/go-chi/chi/v5"

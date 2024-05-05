@@ -6,14 +6,13 @@ import (
 	"net/http"
 	"strconv"
 
-	http2 "blazingly-go/crud-api/api/http"
 	"blazingly-go/crud-api/database"
 	"blazingly-go/crud-api/models"
 	"github.com/go-chi/chi/v5"
 )
 
 type Handler struct {
-	http2.BaseHandler
+	models.BaseHandler
 }
 
 func (h *Handler) InitRoutes() chi.Router {
@@ -26,7 +25,7 @@ func (h *Handler) InitRoutes() chi.Router {
 }
 
 func (h *Handler) getAllStudents(w http.ResponseWriter, r *http.Request) {
-	students, err := database.GetAll[models.ModelFields](h.DB, "students", &models.Students{})
+	students, err := database.GetAll[models.DatabaseObject](h.DB, "students", &models.Students{})
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -44,7 +43,7 @@ func (h *Handler) getStudentByID(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	n, _ := strconv.Atoi(id)
 
-	student, err := database.GetID[models.ModelFields](h.DB, "students", &models.Students{}, n)
+	student, err := database.GetID[models.DatabaseObject](h.DB, "students", &models.Students{}, n)
 
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)

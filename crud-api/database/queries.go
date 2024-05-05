@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func GetAll[T models.ModelFields](db *sql.DB, tableName string, prototype T) ([]T, error) {
+func GetAll[T models.DatabaseObject](db *sql.DB, tableName string, prototype T) ([]T, error) {
 	query := fmt.Sprintf("SELECT * FROM"+" %s", tableName)
 	rows, err := db.Query(query)
 
@@ -18,7 +18,7 @@ func GetAll[T models.ModelFields](db *sql.DB, tableName string, prototype T) ([]
 
 	var list []T
 	for rows.Next() {
-		item := prototype.NewInstance()
+		item := prototype.NewObject()
 
 		err = rows.Scan(item.GetFields()...) // spread operator (...) to unpack the fields
 
@@ -32,11 +32,11 @@ func GetAll[T models.ModelFields](db *sql.DB, tableName string, prototype T) ([]
 	return list, nil
 }
 
-func GetID[T models.ModelFields](db *sql.DB, tableName string, prototype T, id int) (T, error) {
+func GetID[T models.DatabaseObject](db *sql.DB, tableName string, prototype T, id int) (T, error) {
 	query := fmt.Sprintf("SELECT * FROM"+" %s WHERE id=%d", tableName, id)
 	row := db.QueryRow(query)
 
-	item := prototype.NewInstance()
+	item := prototype.NewObject()
 
 	err := row.Scan(item.GetFields()...)
 

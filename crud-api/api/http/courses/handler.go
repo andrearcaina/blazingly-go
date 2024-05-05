@@ -6,13 +6,12 @@ import (
 	"log"
 	"net/http"
 
-	http2 "blazingly-go/crud-api/api/http"
 	"blazingly-go/crud-api/database"
 	"blazingly-go/crud-api/models"
 )
 
 type Handler struct {
-	http2.BaseHandler
+	models.BaseHandler
 }
 
 func (h *Handler) InitRoutes() chi.Router {
@@ -24,7 +23,7 @@ func (h *Handler) InitRoutes() chi.Router {
 }
 
 func (h *Handler) getAllCourses(w http.ResponseWriter, r *http.Request) {
-	courses, err := database.GetAll[models.ModelFields](h.DB, "courses", &models.Courses{})
+	courses, err := database.GetAll[models.DatabaseObject](h.DB, "courses", &models.Courses{})
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
