@@ -1,8 +1,6 @@
 package router
 
 import (
-	"blazingly-go/crud-api/api/http/professors"
-	http2 "blazingly-go/crud-api/models"
 	"database/sql"
 	"encoding/json"
 	"github.com/go-chi/chi/v5"
@@ -10,11 +8,13 @@ import (
 	"net/http"
 
 	"blazingly-go/crud-api/api/http/courses"
+	"blazingly-go/crud-api/api/http/professors"
 	"blazingly-go/crud-api/api/http/students"
+	"blazingly-go/crud-api/models"
 )
 
 func Server(r chi.Router, db *sql.DB) {
-	base := http2.BaseHandler{DB: db}
+	base := models.BaseHandler{DB: db}
 	studentsHandler := students.Handler{BaseHandler: base}
 	coursesHandler := courses.Handler{BaseHandler: base}
 	professorsHandler := professors.Handler{BaseHandler: base}
