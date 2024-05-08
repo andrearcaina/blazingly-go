@@ -6,9 +6,9 @@ var PostcardsDB = make(map[string]Postcard)
 
 func init() {
 	// some seed data
-	PostcardsDB["1"] = Postcard{ID: "1", Name: "Welcome to the CN Tower", Where: "Toronto, Canada", To: "John Doe"}
-	PostcardsDB["2"] = Postcard{ID: "2", Name: "Welcome to the Chichén Itzá", Where: "Yucatan, Mexico", To: "Jane Doe"}
-	PostcardsDB["3"] = Postcard{ID: "3", Name: "Welcome to the Washington Monument", Where: "Washington, D.C., USA", To: "John Smith"}
+	PostcardsDB["1"] = Postcard{ID: 1, Name: "Welcome to the CN Tower", Where: "Toronto, Canada", To: "John Doe"}
+	PostcardsDB["2"] = Postcard{ID: 2, Name: "Welcome to the Chichén Itzá", Where: "Yucatan, Mexico", To: "Jane Doe"}
+	PostcardsDB["3"] = Postcard{ID: 3, Name: "Welcome to the Washington Monument", Where: "Washington, D.C., USA", To: "John Smith"}
 }
 
 func FindByID(id string) (Postcard, error) {

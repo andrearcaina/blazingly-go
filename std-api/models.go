@@ -1,7 +1,7 @@
 package main
 
 type Postcard struct {
-	ID    string `json:"id"`
+	ID    int    `json:"id"`
 	Name  string `json:"name"`
 	Where string `json:"where"`
 	To    string `json:"to"`
