@@ -16,11 +16,11 @@ func InitAPI() *http.ServeMux {
 		json.NewEncoder(w).Encode(map[string]int{"version": 1})
 	})
 
-	mux.HandleFunc("GET /postcards/", PostcardHandler.List)
-	mux.HandleFunc("GET /postcards/{id}", PostcardHandler.GetID)
-	mux.HandleFunc("POST /postcards/", PostcardHandler.Create)
-	mux.HandleFunc("PUT /postcards/{id}", PostcardHandler.Update)
-	mux.HandleFunc("DELETE /postcards/{id}", PostcardHandler.Delete)
+	mux.HandleFunc("GET /postcards/", PostcardHandler.ListPost)
+	mux.HandleFunc("GET /postcards/{id}", PostcardHandler.ListPostByID)
+	mux.HandleFunc("POST /postcards/", PostcardHandler.CreatePost)
+	mux.HandleFunc("PUT /postcards/{id}", PostcardHandler.UpdatePost)
+	mux.HandleFunc("DELETE /postcards/{id}", PostcardHandler.DeletePost)
 
 	v1 := http.NewServeMux()
 	// this puts the /api/v1/ prefix on all routes
