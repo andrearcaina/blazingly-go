@@ -11,6 +11,16 @@ func init() {
 	PostcardsDB["3"] = Postcard{ID: 3, Name: "Welcome to the Washington Monument", Where: "Washington, D.C., USA", To: "John Smith"}
 }
 
+func FindAll() []Postcard {
+	postcards := make([]Postcard, 0, len(PostcardsDB))
+
+	for _, postcard := range PostcardsDB {
+		postcards = append(postcards, postcard)
+	}
+
+	return postcards
+}
+
 func FindByID(id string) (Postcard, error) {
 	if postcard, ok := PostcardsDB[id]; ok {
 		return postcard, nil

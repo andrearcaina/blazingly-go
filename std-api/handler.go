@@ -12,7 +12,7 @@ type PostcardHandler struct{}
 func (ph *PostcardHandler) ListPost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(PostcardsDB)
+	json.NewEncoder(w).Encode(FindAll())
 }
 
 func (ph *PostcardHandler) ListPostByID(w http.ResponseWriter, r *http.Request) {
