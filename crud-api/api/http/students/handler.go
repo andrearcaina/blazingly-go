@@ -20,6 +20,7 @@ func (h *Handler) InitRoutes() chi.Router {
 
 	r.Get("/", h.getAllStudents)
 	r.Get("/{id}", h.getStudentByID)
+	r.Post("/", h.createStudent)
 
 	return r
 }
@@ -55,4 +56,30 @@ func (h *Handler) getStudentByID(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(student)
+}
+
+func (h *Handler) createStudent(w http.ResponseWriter, r *http.Request) {
+	var student models.Students
+
+	err := json.NewDecoder(r.Body).Decode(&student)
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Error decoding student"))
+		log.Printf("Error decoding student: %v", err)
+		return
+	}
+
+	item, err := database.CreateObj[models.DatabaseObject](h.DB, "students", &student)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Error creating student"))
+		log.Printf("Error creating student: %v", err)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(item)
 }
